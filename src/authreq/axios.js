@@ -3,7 +3,7 @@ import axios from 'axios';
 import AuthService from '@/authreq/auth';
 
 const instance = axios.create({
-  baseURL: import.meta.env.VITE__APP_DOMAIN + '/api',
+  baseURL: import.meta.env.VITE_APP_DOMAIN + import.meta.env.VITE_APP_APIPATH,
 });
 
 instance.interceptors.request.use(

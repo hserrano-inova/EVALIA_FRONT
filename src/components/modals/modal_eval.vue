@@ -12,11 +12,13 @@
         <div class="modal-body">
           <img v-show="waiting" src="@/assets/img/loading.gif" class="floating_gif" />
           <div class="row">
-            <div class="col-8">
-              <h4 v-if="ia_response!=''"><i class="bi bi-trophy"></i>&nbsp;Puntuacion : <span class="text-secondary" style="font-size: 1.5em;">{{ puntuacion }}</span></h4>
-            </div>
-
             <div class="col-4">
+              <select class="form-select" v-model="selectedmodel">
+                <option value="1" selected>MODELO1</option>
+                <option value="2">MODELO2</option>
+              </select> 
+            </div>
+            <div class="col-8">
               <button type="button" class="btn btn-sm btn-warning float-end" @click="evalRun">
                 <i class="bi bi-pen"></i>&nbsp;EVALUAR
               </button>
@@ -25,8 +27,11 @@
               </button>
             </div>
           </div>
+          <hr>
           <div class="row">
             <div class="col-12">
+              <h4 v-if="ia_response!=''"><i class="bi bi-trophy"></i>&nbsp;Puntuacion : <span class="text-secondary" style="font-size: 1.5em;">{{ puntuacion }}</span></h4>
+              <hr v-if="ia_response!=''">
               <label class="form-label">Evaluacion IA</label>
               <textarea v-model="ia_response" disabled  rows="25" class="form-control is-valid"></textarea>
             </div>
@@ -52,6 +57,7 @@ export default {
     const licitaAlias = ref("")
     const ia_response = ref("")
     const puntuacion  = ref(0)
+    const selectedmodel = ref(1)
 
     const showModal = (msg) => {
       licitaAlias.value = msg
@@ -70,7 +76,7 @@ export default {
     const evalRun = () => {
       ia_response.value = ""
       waiting.value = true
-      emit('evalRun')
+      emit('evalRun',selectedmodel.value)
     }
 
     const evalShow = (response,points) => {
@@ -85,6 +91,7 @@ export default {
       licitaAlias,
       ia_response,
       puntuacion,
+      selectedmodel,
       showModal,
       closeModal,
       evalRun,

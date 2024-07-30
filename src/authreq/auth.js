@@ -1,7 +1,7 @@
 //Aporta las funciones de login, logout y guarda y elimina el token
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE__APP_DOMAIN + '/api';
+const API_URL = import.meta.env.VITE_APP_DOMAIN + import.meta.env.VITE_APP_APIPATH;
 
 class AuthService {
   async login(username, password) {
@@ -9,7 +9,7 @@ class AuthService {
       {username,password},
       {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
     ).catch((error) => {
-      throw error.response.data
+      throw error.response
     })
     if (response.data.access_token) {
       localStorage.setItem('evalia_token', JSON.stringify(response.data));

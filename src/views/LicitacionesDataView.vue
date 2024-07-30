@@ -196,7 +196,7 @@ export default {
         formData.append('alias', t);
   
         waiting.value = true;
-        await axios.post('/uploadfile',
+        await axios.post('https://evalia.inovalabs.es/api/uploadfile/',
           formData,
           {headers: {'Content-Type': 'multipart/form-data'}}
         )
@@ -221,7 +221,7 @@ export default {
       }
     }
 
-    const evalRun = async () => {
+    const evalRun = async (model) => {
       ia_response.value = ""
       ia_section_points.value = 0
       console.log(selectedTab.value)
@@ -229,7 +229,8 @@ export default {
           JSON.stringify({
               "idl": idLicita.value,
               "idof": selectedOf.value,
-              'sect': selectedTab.value
+              'sect': selectedTab.value,
+              'model': model
              }
            ),
            {headers: {'Content-Type': 'application/json'}}

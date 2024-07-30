@@ -70,7 +70,7 @@
         <a href="#" v-for="of, i in data.ofertas" :key="i"
           :class="['list-group-item list-group-item-action', { 'active': seldoc == of.id }]">
           <p @click="selDoc(of.id)">
-            {{ of.alias }}
+            <i class="bi bi-arrow-down-right-square"></i> &nbsp; {{ of.alias }}
           </p>
           <i class="bi bi-trash" style="float:right" @click="delDoc(of.id)"></i>
           {{ formattedDate(of.fecha) }}
