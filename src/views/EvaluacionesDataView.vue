@@ -20,8 +20,8 @@
           </button>
         </h2>
         <div :id="i" class="accordion-collapse collapse" aria-labelledby="headingOne" :data-bs-parent="'#'+i" style="">
-          <div class="accordion-body">
-            {{ r['evaluacion'] }}
+          <div class="accordion-body" >
+            <textarea  disabled  rows="25" class="form-control is-valid">{{r['evaluacion'][0]}}</textarea>
           </div>
         </div>
       </div>
