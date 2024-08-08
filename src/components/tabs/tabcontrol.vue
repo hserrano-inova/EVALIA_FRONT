@@ -1,21 +1,21 @@
 <template>
   <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item" role="presentation" v-for="t, i in tabs" :key="i">
-      <a :class="['nav-link', { 'active': i == 0 }]" data-bs-toggle="tab" :href="'#' + t.header" aria-selected="false"
+      <a :class="['nav-link', { 'active': i==t.selindex}]" data-bs-toggle="tab" :href="'#' + t.header" aria-selected="false"
         role="tab" tabindex="-1" @click.prevent="$emit('selTab', i-1)">
         {{ t.header.toUpperCase() }}
         <span :class="['badge', { 'bg-light': i > 0, 'bg-warning': i == 0 }]">{{ t.badge }}</span>
       </a>
     </li>
     <li class="nav-item" role="presentation">
-      <a :class="['nav-link', { 'active': i == 0 }]" href="#" data-bs-toggle="tab" @click.prevent="$emit('addTab')"
+      <a :class="['nav-link']" href="#" data-bs-toggle="tab" @click.prevent="$emit('addTab')"
         aria-selected="false" role="tab" tabindex="-1">
         <i class="bi bi-plus-circle"></i>
       </a>
     </li>
   </ul>
   <div id="myTabContent" class="tab-content">
-    <div v-for="t, i in tabs" :key="i" :class="['tab-pane fade', { 'show active': i == 0 }]" :id="t.header"
+    <div v-for="t, i in tabs" :key="i" :class="['tab-pane fade', { 'show active': i == t.selindex}]" :id="t.header"
       role="tabpanel">
       <div v-if="t.tipo == 'seccion'">
         <SeccionTab :data="data" :row="i - 1" 

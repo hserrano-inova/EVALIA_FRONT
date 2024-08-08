@@ -49,10 +49,10 @@ export default {
     const ia_section_points = ref(0)
 
     const renderTabs = () => {
-      tabs.value = [{ 'header': 'general', 'tipo': 'lgeneral','badge':data.value['pmax'], 'fields': [] }]
+      tabs.value = [{ 'header': 'general', 'tipo': 'lgeneral','badge':data.value['pmax'], 'fields': [] , "selindex":selectedTab.value}]
       for (let i = 0; i < data.value.secciones.length; i++) {
         const s = data.value.secciones[i]
-        tabs.value.push({ 'header': s['tabtxt'], 'tipo': 'seccion', 'badge': s['puntuacion'], 'fields': [] })
+        tabs.value.push({ 'header': s['tabtxt'], 'tipo': 'seccion', 'badge': s['puntuacion'], 'fields': [] , "selindex":selectedTab.value})
       }
     }
 
@@ -139,13 +139,19 @@ export default {
     }
 
     const selTab = (indx) => {
-      selectedTab.value=indx
+      selectedTab.value=indx+1
+      renderTabs()
     }
 
     const addTab = () => {
+      //if(idLicita.value == '0'){
+      // vhead.value.showaviso(1, 'Debes guardar primero la licitación antes de generar las secciones.')
+      //  return
+      //}
       const t = prompt("Nombre de la sección?")
       if (t != '') {
-        data.value.secciones.push({ 'tabtxt': t, 'header': '', 'pliego': '', 'criterio': '', 'puntuacion': 0 })
+        data.value.secciones.push({ 'tabtxt': t.replace(/ /g, "_"), 'header': '', 'pliego': '', 'criterio': '', 'puntuacion': 0 })
+        selectedTab.value = data.value.secciones.length
         renderTabs()
       }
     }

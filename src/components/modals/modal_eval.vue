@@ -14,8 +14,8 @@
           <div class="row">
             <div class="col-4">
               <select class="form-select" v-model="selectedmodel">
-                <option value="1" selected>MODELO1</option>
-                <option value="2">MODELO2</option>
+                <option value="2" selected>MODELO LOGICO</option>
+                <option value="1">MODELO CREATIVO</option>
               </select> 
             </div>
             <div class="col-8">
@@ -57,7 +57,7 @@ export default {
     const licitaAlias = ref("")
     const ia_response = ref("")
     const puntuacion  = ref(0)
-    const selectedmodel = ref(1)
+    const selectedmodel = ref(2)
 
     const showModal = (msg) => {
       licitaAlias.value = msg
