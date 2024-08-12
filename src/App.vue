@@ -8,7 +8,15 @@
     <div class="container">
       <router-view/>
     </div>
+    <footer class="bg-light text-center fixed-bottom">
+  <div class="container">
+    <a href="https://inovalabs.es/" target="_blank"><img src="@/assets/img/logo_inova.png" alt="Bootstrap" class="d-inline-block align-text-top"></a>
+    <span style="vertical-align:bottom;">© 2024 Copyright: <b>Inovalabs.es</b></span>
   </div>
+</footer>
+  </div>
+
+
 </template>
 
 
