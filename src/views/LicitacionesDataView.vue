@@ -202,7 +202,11 @@ export default {
         formData.append('alias', t);
   
         waiting.value = true;
-        await axios.post('https://evalia.inovalabs.es/api/uploadfile/',
+        let url ='https://evalia.inovalabs.es/api/uploadfile/'
+        if(import.meta.env.VITE_APP_DEBUG == 1){
+          url='http://localhost:8000/uploadfile/'
+        }
+        await axios.post(url,
           formData,
           {headers: {'Content-Type': 'multipart/form-data'}}
         )

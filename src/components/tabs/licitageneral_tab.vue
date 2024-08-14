@@ -1,7 +1,7 @@
 <template>
   <div class="row" style="margin-top: 30px;" v-if="data">
     <!-- -----------------------------PROMOTOR----------------------------- -->
-    <div class="col-4 right-border">
+    <div class="col-lg-4 right-border">
       <legend>Promotor</legend>
       <hr />
 
@@ -55,7 +55,7 @@
     </div>
 
     <!-- -----------------------------OFERTAS----------------------------- -->
-    <div class="col-3 right-border">
+    <div class="col-lg-3 right-border">
       <legend>Ofertas
         <button v-if="choosed_file" @click="uploadFile" class="btn btn-secondary btn-sm" style="float:right">
           <i class="bi bi-upload"></i>
@@ -79,7 +79,7 @@
     </div>
 
     <!-- -----------------------------EVALUACIONES----------------------------- -->
-    <div class="col-5">
+    <div class="col-lg-5">
       <legend>Evaluaciones
         <!-- <button v-if="seldoc!=''" @click="uploadFile" class="btn btn-warning btn-sm" style="float:right">
           <i class="bi bi-pen"></i>&nbsp;Iniciar evaluacion completa

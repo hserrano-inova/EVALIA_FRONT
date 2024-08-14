@@ -16,6 +16,7 @@
               <select class="form-select" v-model="selectedmodel">
                 <option value="2" selected>MODELO LOGICO</option>
                 <option value="1">MODELO CREATIVO</option>
+                <!-- <option value="3">MODELO OPEN</option> -->
               </select> 
             </div>
             <div class="col-8">
