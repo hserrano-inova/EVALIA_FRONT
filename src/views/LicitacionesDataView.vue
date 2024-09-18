@@ -234,12 +234,12 @@ export default {
     const evalRun = async (model) => {
       ia_response.value = ""
       ia_section_points.value = 0
-      console.log(selectedTab.value)
+      //console.log(selectedTab.value)
        await axios.post('/evalua',
           JSON.stringify({
               "idl": idLicita.value,
               "idof": selectedOf.value,
-              'sect': selectedTab.value,
+              'sect': (selectedTab.value)-1,
               'model': model
              }
            ),
@@ -267,7 +267,7 @@ export default {
             "id_licitacion":idLicita.value,
             "licitacion":data.value.nombre,
             "oferta":selectedOfAlias.value,
-            "seccion":data.value['secciones'][selectedTab.value]['tabtxt'],
+            "seccion":data.value['secciones'][(selectedTab.value)-1]['tabtxt'],
             "evaluacion":ia_response.value,
             "puntos": ia_section_points.value,
             "pmax": data.value['pmax']
