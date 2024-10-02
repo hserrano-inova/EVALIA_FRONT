@@ -27,8 +27,25 @@
             <input class="form-control form-control-sm bold-inputbox" type="number" v-model="data.pmax">
           </fieldset>
         </div>
+        <hr/>
+      </div>
+
+      <div class="row" v-if="data.id!=null">
+        <legend>Pliego
+        <button  v-if="choosed_pliego_file" @click="uploadPliegoFile" class="btn btn-secondary btn-sm" style="float:right">
+          <i class="bi bi-upload"></i>
+        </button>
+        </legend>
+        <hr />
+        <div >
+          <input ref="inputUploadPliego" @change="selectedFilePliegoChange" class="form-control" type="file" id="formFile">
+          <br/>
+          <a :href="'https://evalia.inovalabs.es/api/static/pliegos/' + data.licitacion_fname" type="application/pdf" width="100%" height="600px" target="_blank">{{data.licitacion_fname}}</a>
+        </div>
+        <hr />
 
       </div>
+
 
       <div class="row">
         <div class="col-12">
@@ -99,7 +116,7 @@ import STable from '@/components/smart_table/smart_table.vue';
 export default {
   name: 'LGeneral',
   props: ['data', 'dataEval'],
-  emits: ['rowClick', 'selDoc', 'delDoc', 'uploadFile'],
+  emits: ['rowClick', 'selDoc', 'delDoc', 'uploadFile', 'uploadPliegoFile', 'evalRowClick'],
   components: { STable },
   setup(props, { emit }) {
     const settings = inject('settings');
@@ -107,6 +124,8 @@ export default {
     const choosed_file = ref("")
     const selectedFile = ref(null)
     const inputUpload = ref(null)
+    const selectedPliegoFile  = ref(null)
+    const choosed_pliego_file = ref(null)
 
     const formattedDate = (dateStr) => {
       const dateObj = new Date(dateStr);
@@ -142,11 +161,26 @@ export default {
       inputUpload.value.value = ''
     }
 
+    const uploadPliegoFile = () => {
+      emit('uploadPliegoFile', selectedPliegoFile.value)
+    }
+
+
     const selectedFileChange = (e) => {
       const file = e.target.files[0];
       if (file.type === 'application/pdf') {
         selectedFile.value = e.target.files[0];
         choosed_file.value = true
+      } else {
+        alert('Solo se aceptan archivos PDF')
+      }
+    }
+
+    const selectedFilePliegoChange = (e) => {
+      const file = e.target.files[0];
+      if (file.type === 'application/pdf') {
+        selectedPliegoFile.value = e.target.files[0];
+        choosed_pliego_file.value = true
       } else {
         alert('Solo se aceptan archivos PDF')
       }
@@ -171,7 +205,10 @@ export default {
       delDoc,
       uploadFile,
       selectedFileChange,
-      formattedDate
+      choosed_pliego_file,
+      selectedFilePliegoChange,
+      formattedDate,
+      uploadPliegoFile
     }
   }
 }

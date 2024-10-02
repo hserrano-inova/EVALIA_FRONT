@@ -21,7 +21,11 @@
     </div>
     <div class="row">
       <div class="col-12">
+        <hr/>
         <label class="form-label">Pliego</label>
+        <button v-if="data.licitacion_fname!=''"  @click="loadPages" class="btn btn-info btn-sm" style="float:right">
+          <i class="bi bi-file-earmark-text"></i>&nbsp;Cargar Pliego
+        </button>
         <textarea v-model="data.secciones[row].pliego" rows="10"
           class="form-control is-valid"></textarea>
       </div>
@@ -41,6 +45,46 @@
 <script>
 export default {
   name: 'TxtAreaTab',
-  props: ['data', 'row']
+  props: ['data', 'row'],
+  emits: ['loadPages'],
+
+  setup(props, { emit }) {
+
+    const loadPages = () => {
+      const pages = window.prompt('Ingresa el rango de paginas, ej: 4-6,7-9')
+      if (pages != null) {
+        let result = [];
+        let parts = pages.split(',');
+
+        // Iteramos sobre cada parte
+        parts.forEach(part => {
+            // Si el formato es de rango (ej. 4-6)
+            if (part.includes('-')) {
+                let [start, end] = part.split('-').map(Number); // Dividimos y convertimos a números
+                // Añadimos todos los números del rango al array
+                for (let i = start; i <= end; i++) {
+                    result.push(i);
+                }
+            } else {
+                // Si es un solo número, lo añadimos al array
+                result.push(Number(part));
+            }
+        });
+
+        // Ordenamos y eliminamos duplicados si es necesario
+        result = [...new Set(result)].sort((a, b) => a - b);
+        //check if result is an array of integers
+        if (result.some(x => isNaN(x))) {
+          alert('Ingresa un rango de paginas valido, ej: 2,4-6,8-9');
+        }else{
+          emit('loadPages', [props.row,result]);
+        }
+      }
+    }
+
+    return {
+      loadPages
+    }
+  }
 }
 </script>

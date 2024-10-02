@@ -14,7 +14,9 @@
         @selDoc="selDoc" 
         @delDoc="delDoc" 
         @uploadFile="uploadFile"
+        @uploadPliegoFile="uploadPliegoFile"
         @evalRowClick="evalRowClick"
+        @loadPages="loadPages"
         />
       </div>
     </div>
@@ -193,7 +195,7 @@ export default {
     }
 
     const uploadFile = async (e) => {
-      const t = prompt("Escribe un nombre para la oferta")
+      const t = prompt("Escribe un nombre para el ")
       if (t != '') {
         const formData = new FormData();
   
@@ -219,6 +221,35 @@ export default {
         })
         selectedOf.value = ""
       }
+    }
+
+    const uploadPliegoFile = async (e) => {
+
+        const formData = new FormData();
+  
+        formData.append('file', e);
+        formData.append('id', idLicita.value);
+  
+        waiting.value = true;
+        let url ='https://evalia.inovalabs.es/api/uploadpliegofile/'
+        if(import.meta.env.VITE_APP_DEBUG == 1){
+          url='http://localhost:8000/uploadpliegofile/'
+        }
+        await axios.post(url,
+          formData,
+          {headers: {'Content-Type': 'multipart/form-data'}}
+        )
+        .then((resp) => {
+          waiting.value = false;
+          console.log(resp.data)
+          data.value['licitacion_fname'] = resp.data
+          //queryData()
+        })
+        .catch((error) => {
+          vhead.value.showaviso(1, error)
+        })
+        selectedOf.value = ""
+      
     }
 
     const evalmodal = () => {  
@@ -292,6 +323,26 @@ export default {
       })
     }
 
+    const loadPages = async (e) => {
+      //e[0]=pestaña, e[1]=pages
+      const formData = new FormData();
+      console.log(e[0]);
+      formData.append('pages', e[1]);
+      formData.append('docname', data.value['licitacion_fname']);
+
+        await axios.post('/loadpages/',
+          formData,
+          {headers: {'Content-Type': 'application/form-data'}}
+        )
+        .then((response) => {
+          data.value.secciones[e[0]].pliego = response.data
+        })
+        .catch((error) => {
+          vhead.value.showaviso(1, error)
+          modal_evalua.value.evalShow(error)
+        })
+    }
+
     onMounted(() => {
       const p = route.query
       if (Object.prototype.hasOwnProperty.call(p, 'id')) {
@@ -324,11 +375,13 @@ export default {
       selDoc,
       delDoc,
       uploadFile,
+      uploadPliegoFile,
       check_points,
       evalmodal,
       evalRun,
       saveEval,
-      evalRowClick
+      evalRowClick,
+      loadPages
     };
   }
 }

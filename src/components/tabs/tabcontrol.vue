@@ -20,7 +20,8 @@
       <div v-if="t.tipo == 'seccion'">
         <SeccionTab :data="data" :row="i - 1" 
           @delTab="$emit('delTab', $event)"
-          @evalTab="$emit('evalTab', $event)" />
+          @evalTab="$emit('evalTab', $event)" 
+          @loadPages="$emit('loadPages', $event)"/>
       </div>
       <div v-else-if="t.tipo == 'lgeneral'">
         <LicitaGeneral :data="data" :dataEval="dataEval"
@@ -28,6 +29,7 @@
         @selDoc="$emit('selDoc', $event)" 
         @delDoc="$emit('delDoc', $event)" 
         @uploadFile="$emit('uploadFile', $event)"
+        @uploadPliegoFile="$emit('uploadPliegoFile', $event)"
         @evalRowClick="$emit('evalRowClick', $event)"/>
       </div>
     </div>
