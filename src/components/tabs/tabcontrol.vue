@@ -21,6 +21,7 @@
         <SeccionTab :data="data" :row="i - 1" 
           @delTab="$emit('delTab', $event)"
           @evalTab="$emit('evalTab', $event)" 
+          @evalTabComp="$emit('evalTabComp', $event)"
           @loadPages="$emit('loadPages', $event)"
           @pliegoQuery="$emit('pliegoQuery', $event)"/>
       </div>

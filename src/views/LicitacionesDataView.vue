@@ -11,6 +11,7 @@
         @addTab="addTab" 
         @delTab="delTab"
         @evalTab="evalmodal" 
+        @evalTabComp="evalTabComp"
         @selDoc="selDoc" 
         @delDoc="delDoc" 
         @uploadFile="uploadFile"
@@ -234,7 +235,7 @@ export default {
         waiting.value = true;
         let url ='https://evalia.inovalabs.es/api/uploadpliegofile/'
         if(import.meta.env.VITE_APP_DEBUG == 1){
-          url='http://localhost:8000/uploadpliegofile/'
+          url='http://localhost:8000/api/uploadpliegofile/'
         }
         await axios.post(url,
           formData,
@@ -242,9 +243,8 @@ export default {
         )
         .then((resp) => {
           waiting.value = false;
-          console.log(resp.data)
+          //console.log(resp.data)
           data.value['licitacion_fname'] = resp.data
-          //queryData()
         })
         .catch((error) => {
           vhead.value.showaviso(1, error)
@@ -263,10 +263,14 @@ export default {
       }
     }
 
+    const evalTabComp = (row) => {
+      alert(row)
+    }
+
     const evalRun = async (model) => {
       ia_response.value = ""
       ia_section_points.value = 0
-      //console.log(selectedTab.value)
+      //console.log(selectedTab.value-1)
        await axios.post('/evalua',
           JSON.stringify({
               "idl": idLicita.value,
@@ -405,7 +409,8 @@ export default {
       saveEval,
       evalRowClick,
       loadPages,
-      pliegoQuery
+      pliegoQuery,
+      evalTabComp
     };
   }
 }

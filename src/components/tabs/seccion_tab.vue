@@ -6,12 +6,19 @@
         <label class="form-label">Puntuacion MAX</label>
         <input required type="number" class="form-control bold-inputbox" v-model="data.secciones[row].puntuacion" />
       </div>
-      <div class="col-3"></div>
-      <div class="col-3">
+      <div class="col-2"></div>
+      
+      <div class="col-4">
         <button v-if="data.secciones[row].puntuacion>0 && data.secciones[row].pliego!='' && data.secciones[row].criterio!=''"  
           @click="$emit('evalTab', row)" type="button" class="btn btn-sm btn-warning">
-          <i class="bi bi-pen"></i>&nbsp;Evaluacion parcial
+          <i class="bi bi-person"></i>&nbsp;Eval.Individual
         </button>
+        &nbsp;
+        <button v-if="data.secciones[row].puntuacion>0 && data.secciones[row].pliego!='' && data.secciones[row].criterio!=''"  
+          @click="$emit('evalTabComp', row)" type="button" class="btn btn-sm btn-primary">
+          <i class="bi bi-people"></i>&nbsp;Eval. Comparativa
+        </button>
+
       </div>
       <div class="col-3" style="text-align: right">
         <button @click="$emit('delTab', row)" type="button" class="btn btn-sm btn-danger">
@@ -60,7 +67,7 @@ import { ref } from 'vue'
 export default {
   name: 'TxtAreaTab',
   props: ['data', 'row'],
-  emits: ['loadPages'],
+  emits: ['evalTabComp', 'evalTab', 'pliegoQuery', 'delTab', 'loadPages'],
 
   setup(props, { emit }) {
 
