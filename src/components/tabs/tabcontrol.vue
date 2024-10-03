@@ -21,7 +21,8 @@
         <SeccionTab :data="data" :row="i - 1" 
           @delTab="$emit('delTab', $event)"
           @evalTab="$emit('evalTab', $event)" 
-          @loadPages="$emit('loadPages', $event)"/>
+          @loadPages="$emit('loadPages', $event)"
+          @pliegoQuery="$emit('pliegoQuery', $event)"/>
       </div>
       <div v-else-if="t.tipo == 'lgeneral'">
         <LicitaGeneral :data="data" :dataEval="dataEval"

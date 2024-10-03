@@ -20,12 +20,25 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-12">
-        <hr/>
-        <label class="form-label">Pliego</label>
-        <button v-if="data.licitacion_fname!=''"  @click="loadPages" class="btn btn-info btn-sm" style="float:right">
+      <hr/>
+      <div class="col-2">
+        <button v-if="data.licitacion_fname!=''"  @click="loadPages" class="btn btn-info btn-sm" >
           <i class="bi bi-file-earmark-text"></i>&nbsp;Cargar Pliego
         </button>
+      </div>
+      
+        <div class="col-9">
+          <input type="text" class="form-control" placeholder="Consulta sobre pliego" v-model="pliegoQueryText">
+        </div>
+        <div class="col-1">
+          <button type="submit" class="btn btn-primary mb-3" @click="$emit('pliegoQuery',[row, pliegoQueryText])">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      
+    </div>
+    <div class="row">
+      <div class="col-12">
         <textarea v-model="data.secciones[row].pliego" rows="10"
           class="form-control is-valid"></textarea>
       </div>
@@ -43,12 +56,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 export default {
   name: 'TxtAreaTab',
   props: ['data', 'row'],
   emits: ['loadPages'],
 
   setup(props, { emit }) {
+
+    const pliegoQueryText = ref('');
 
     const loadPages = () => {
       const pages = window.prompt('Ingresa el rango de paginas, ej: 4-6,7-9')
@@ -83,6 +99,7 @@ export default {
     }
 
     return {
+      pliegoQueryText,
       loadPages
     }
   }

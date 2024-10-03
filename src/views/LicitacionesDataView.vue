@@ -17,6 +17,7 @@
         @uploadPliegoFile="uploadPliegoFile"
         @evalRowClick="evalRowClick"
         @loadPages="loadPages"
+        @pliegoQuery="pliegoQuery"
         />
       </div>
     </div>
@@ -330,17 +331,39 @@ export default {
       formData.append('pages', e[1]);
       formData.append('docname', data.value['licitacion_fname']);
 
-        await axios.post('/loadpages/',
-          formData,
-          {headers: {'Content-Type': 'application/form-data'}}
-        )
-        .then((response) => {
-          data.value.secciones[e[0]].pliego = response.data
-        })
-        .catch((error) => {
-          vhead.value.showaviso(1, error)
-          modal_evalua.value.evalShow(error)
-        })
+      await axios.post('/loadpages/',
+        formData,
+        {headers: {'Content-Type': 'application/form-data'}}
+      )
+      .then((response) => {
+        data.value.secciones[e[0]].pliego = response.data
+      })
+      .catch((error) => {
+        vhead.value.showaviso(1, error)
+        modal_evalua.value.evalShow(error)
+      })
+    }
+
+    const pliegoQuery = async (e) => {
+      // //e[0]=pestaña, e[1]=query
+      const formData = new FormData();
+      formData.append('query', e[1]);
+      formData.append('pliego', data.value.secciones[e[0]].pliego);
+
+      waiting.value = true;
+      await axios.post('/pliegoquery/',
+        formData,
+        {headers: {'Content-Type': 'application/form-data'}}
+      )
+      .then((response) => {
+        waiting.value = false;
+        alert(response.data);
+      })
+      .catch((error) => {
+        waiting.value = false;
+        vhead.value.showaviso(1, error)
+        modal_evalua.value.evalShow(error)
+      })
     }
 
     onMounted(() => {
@@ -381,7 +404,8 @@ export default {
       evalRun,
       saveEval,
       evalRowClick,
-      loadPages
+      loadPages,
+      pliegoQuery
     };
   }
 }
