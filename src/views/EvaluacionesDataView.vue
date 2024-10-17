@@ -21,6 +21,10 @@
         </h2>
         <div :id="i" class="accordion-collapse collapse" aria-labelledby="headingOne" :data-bs-parent="'#'+i" style="">
           <div class="accordion-body" >
+            <button class="btn btn-sm btn-info" @click="copycontent(r['evaluacion'][0])">
+              <i class="bi bi-clipboard-check"></i>&nbsp;Copiar
+            </button>
+            <br/><br/>
             <textarea  disabled  rows="25" class="form-control is-valid">{{r['evaluacion'][0]}}</textarea>
           </div>
         </div>
@@ -90,6 +94,14 @@ export default{
           })
       }
 
+      const copycontent =(txt)=>{
+        //copy variable data to clipboard
+        navigator.clipboard.writeText(
+          txt
+        )
+        alert("Copiado!!")
+      }
+
       onMounted(() => {
         const p = route.query
         if (Object.prototype.hasOwnProperty.call(p, 'id')) {
@@ -105,7 +117,8 @@ export default{
       puntos,
       queryData,
       printBnt,
-      delEval
+      delEval,
+      copycontent
     }
   }
 
