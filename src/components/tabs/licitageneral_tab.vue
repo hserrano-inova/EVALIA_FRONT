@@ -41,6 +41,7 @@
           <input ref="inputUploadPliego" @change="selectedFilePliegoChange" class="form-control" type="file" id="formFile">
           <br/>
           <a :href="'https://evalia.inovalabs.es/api/static/pliegos/' + data.licitacion_fname" type="application/pdf" width="100%" height="600px" target="_blank">{{data.licitacion_fname}}</a>
+          <FileGroup :data="[{'alias':'jerbas','filename':'FTC823460_0.pdf','tipo':'pdf'}]"/>
         </div>
         <hr />
 
@@ -112,12 +113,13 @@
 <script>
 import { ref, inject } from 'vue' //watch
 import STable from '@/components/smart_table/smart_table.vue';
+import FileGroup from '@/components/controls/list_file_group.vue';
 
 export default {
   name: 'LGeneral',
   props: ['data', 'dataEval'],
   emits: ['rowClick', 'selDoc', 'delDoc', 'uploadFile', 'uploadPliegoFile', 'evalRowClick'],
-  components: { STable },
+  components: { STable, FileGroup },
   setup(props, { emit }) {
     const settings = inject('settings');
     const seldoc = ref("")

@@ -264,7 +264,8 @@ export default {
     }
 
     const evalTabComp = (row) => {
-      alert(row)
+      //alert(row)
+      alert("No disponible en produccion")
     }
 
     const evalRun = async (model) => {

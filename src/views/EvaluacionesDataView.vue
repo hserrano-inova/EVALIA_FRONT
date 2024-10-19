@@ -57,7 +57,7 @@ export default{
           data.value=response.data
           let sum =0
           for (let i = 0; i < data.value.sections.length; i++) {
-            sum += parseInt(data.value['sections'][i]['puntos'])
+            sum += parseFloat(data.value['sections'][i]['puntos'])
           }
           puntos.value = sum
         })

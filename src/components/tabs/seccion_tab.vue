@@ -22,7 +22,7 @@
       </div>
       <div class="col-3" style="text-align: right">
         <button @click="$emit('delTab', row)" type="button" class="btn btn-sm btn-danger">
-          <i class="bi bi-trash"></i>
+          <i class="bi bi-trash"></i>&nbsp;Borra Apartado
         </button>
       </div>
     </div>
