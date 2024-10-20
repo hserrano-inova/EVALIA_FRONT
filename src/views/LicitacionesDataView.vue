@@ -6,12 +6,14 @@
       <div class="col-12">
         <img v-show="waiting" src="@/assets/img/loading.gif" class="floating_gif" />
         
-        <LTabs :data="data" :tabs="tabs" :dataEval="dataEval"
+        <LTabs :data="data" :tabs="tabs" :dataEval="dataEval" :selpdf="selpdf"
         @selTab="selTab"
         @addTab="addTab" 
         @delTab="delTab"
         @evalTab="evalmodal" 
         @evalTabComp="evalTabComp"
+        @selPliego="selPliego" 
+        @delPliego="delPliego"
         @selDoc="selDoc" 
         @delDoc="delDoc" 
         @uploadFile="uploadFile"
@@ -43,6 +45,7 @@ export default {
     const dataEval = ref({})
     const tabs = ref([])
     const idLicita = ref(0)
+    const selpdf = ref("")
     const selectedTab = ref(0)
     const selectedOf = ref("")
     const selectedOfAlias = ref("")
@@ -197,7 +200,7 @@ export default {
     }
 
     const uploadFile = async (e) => {
-      const t = prompt("Escribe un nombre para el ")
+      const t = prompt("Escribe un nombre para la oferta")
       if (t != '') {
         const formData = new FormData();
   
@@ -226,16 +229,18 @@ export default {
     }
 
     const uploadPliegoFile = async (e) => {
-
+      const t = prompt("Escribe un nombre para el pliego ")
+      if (t != '') {
         const formData = new FormData();
   
         formData.append('file', e);
         formData.append('id', idLicita.value);
+        formData.append('alias', t);
   
         waiting.value = true;
         let url ='https://evalia.inovalabs.es/api/uploadpliegofile/'
         if(import.meta.env.VITE_APP_DEBUG == 1){
-          url='http://localhost:8000/api/uploadpliegofile/'
+          url='http://localhost:8000/uploadpliegofile/'
         }
         await axios.post(url,
           formData,
@@ -243,14 +248,37 @@ export default {
         )
         .then((resp) => {
           waiting.value = false;
-          //console.log(resp.data)
-          data.value['licitacion_fname'] = resp.data
+          console.log(resp.data)
+          queryData()
         })
         .catch((error) => {
           vhead.value.showaviso(1, error)
         })
         selectedOf.value = ""
-      
+      }
+    }
+
+    const selPliego = (fname) => {
+      selpdf.value = fname
+    }
+
+    const delPliego = async (fname) => {
+      let c = confirm("Desea elimiar el pliego?")
+      if (c) {
+        let c2 = confirm("Seguro?")
+        if(c2){
+          waiting.value = true
+          await axios.delete('/pliego/' + idLicita.value + '/' + fname)
+            .then(() => {
+              waiting.value = false
+              queryData()
+            })
+            .catch((error) => {
+              vhead.value.showaviso(1, error)
+            }) 
+        }
+        selectedOf.value = ""
+      }
     }
 
     const evalmodal = () => {  
@@ -330,23 +358,32 @@ export default {
     }
 
     const loadPages = async (e) => {
-      //e[0]=pestaña, e[1]=pages
-      const formData = new FormData();
-      console.log(e[0]);
-      formData.append('pages', e[1]);
-      formData.append('docname', data.value['licitacion_fname']);
-
-      await axios.post('/loadpages/',
-        formData,
-        {headers: {'Content-Type': 'application/form-data'}}
-      )
-      .then((response) => {
-        data.value.secciones[e[0]].pliego = response.data
-      })
-      .catch((error) => {
-        vhead.value.showaviso(1, error)
-        modal_evalua.value.evalShow(error)
-      })
+      if(selpdf.value != ""){
+        //e[0]=pestaña, e[1]=pages
+        const formData = new FormData();
+        console.log(e[0]);
+        formData.append('pages', e[1]);
+        //formData.append('docname', data.value['licitacion_fname']);
+        formData.append('docname', selpdf.value);
+        await axios.post('/loadpages/',
+          formData,
+          {headers: {'Content-Type': 'application/form-data'}}
+        )
+        .then((response) => {
+          const append = confirm("Deseas añadirlo al contenido?");
+          if(append){
+            data.value.secciones[e[0]].pliego += response.data  
+          }else{
+            data.value.secciones[e[0]].pliego = response.data
+          }
+        })
+        .catch((error) => {
+          vhead.value.showaviso(1, error)
+          modal_evalua.value.evalShow(error)
+        })
+      }else{
+        alert("Primero debes cargar un pliego")
+      }
     }
 
     const pliegoQuery = async (e) => {
@@ -382,6 +419,7 @@ export default {
     return { 
       data,
       dataEval,
+      selpdf,
       tabs,
       selectedTab,
       selectedOf,
@@ -400,6 +438,8 @@ export default {
       selTab,
       addTab,
       delTab,
+      selPliego,
+      delPliego,
       selDoc,
       delDoc,
       uploadFile,

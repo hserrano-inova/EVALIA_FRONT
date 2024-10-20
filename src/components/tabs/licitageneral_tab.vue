@@ -40,24 +40,12 @@
         <div >
           <input ref="inputUploadPliego" @change="selectedFilePliegoChange" class="form-control" type="file" id="formFile">
           <br/>
-          <a :href="'https://evalia.inovalabs.es/api/static/pliegos/' + data.licitacion_fname" type="application/pdf" width="100%" height="600px" target="_blank">{{data.licitacion_fname}}</a>
-          <FileGroup :data="[{'alias':'jerbas','filename':'FTC823460_0.pdf','tipo':'pdf'}]"/>
+          <!-- <a :href="'https://evalia.inovalabs.es/api/static/pliegos/' + data.licitacion_fname" type="application/pdf" width="100%" height="600px" target="_blank">{{data.licitacion_fname}}</a> -->
+          <FileGroup :data="data.licitacion_fname" :selpdf="selpdf" @selDoc="selPliego" @delDoc="delPliego"/>
+          <!-- [{'alias':'jerbas','filename':'FTC823460_0.pdf','tipo':'pdf'}] -->
         </div>
         <hr />
 
-      </div>
-
-
-      <div class="row">
-        <div class="col-12">
-        <br/>
-        <fieldset>
-          <div class="input-group mb-3">
-            <span class="input-group-text" @click="linkClick">Link</span>
-            <input type="text" class="form-control form-control-sm" :value="data.enlace">
-          </div>
-        </fieldset>
-        </div>
       </div>
 
       <div class="row">
@@ -117,8 +105,8 @@ import FileGroup from '@/components/controls/list_file_group.vue';
 
 export default {
   name: 'LGeneral',
-  props: ['data', 'dataEval'],
-  emits: ['rowClick', 'selDoc', 'delDoc', 'uploadFile', 'uploadPliegoFile', 'evalRowClick'],
+  props: ['data', 'dataEval','selpdf'],
+  emits: ['rowClick','selPliego', 'delPliego', 'selDoc', 'delDoc', 'uploadFile', 'uploadPliegoFile', 'evalRowClick'],
   components: { STable, FileGroup },
   setup(props, { emit }) {
     const settings = inject('settings');
@@ -143,6 +131,15 @@ export default {
     const linkClick = () => {
       window.open("", '_blank');
     }
+
+    const selPliego = (fname) => {
+      emit('selPliego', fname)
+    }
+
+    const delPliego = (fname) => {
+      emit('delPliego', fname)
+    }
+
     const selDoc = (ofid) => {
       let c = confirm("Desea cargar la oferta?")
       if (c) {
@@ -203,6 +200,8 @@ export default {
       choosed_file,
       inputUpload,
       linkClick,
+      selPliego,
+      delPliego,
       selDoc,
       delDoc,
       uploadFile,
