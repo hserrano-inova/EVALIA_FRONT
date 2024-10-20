@@ -13,11 +13,11 @@
           @click="$emit('evalTab', row)" type="button" class="btn btn-sm btn-warning">
           <i class="bi bi-person"></i>&nbsp;Eval.Individual
         </button>
-        <!-- &nbsp;
+        &nbsp;
         <button v-if="data.secciones[row].puntuacion>0 && data.secciones[row].pliego!='' && data.secciones[row].criterio!=''"  
           @click="$emit('evalTabComp', row)" type="button" class="btn btn-sm btn-primary">
           <i class="bi bi-people"></i>&nbsp;Eval. Comparativa
-        </button> -->
+        </button>
 
       </div>
       <div class="col-3" style="text-align: right">

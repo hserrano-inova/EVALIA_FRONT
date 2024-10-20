@@ -1,6 +1,7 @@
 <template>
   <div>
     <ModalE ref="modal_evalua" title="Evaluacion" @evalRun="evalRun" @saveEval="saveEval"/>
+    <ModalC ref="modal_compara" :ofertas="data.ofertas" title="Evaluacion" @evalRun="evalComp" @saveEval="saveEvalComp"/>
     <div class="row">
       <VHead :data="header_data" ref="vhead" @new="newreg" @save="saveData" @del="delData" />
       <div class="col-12">
@@ -34,10 +35,11 @@ import axios from '@/authreq/axios';
 import VHead from '@/components/navbar/viewheader.vue'
 import LTabs from '@/components/tabs/tabcontrol.vue'
 import ModalE from '@/components/modals/modal_eval.vue'
+import ModalC from '@/components/modals/modal_compare.vue'
 
 export default {
   name: 'LicitacionesDataView',
-  components: { VHead ,LTabs, ModalE},
+  components: { VHead ,LTabs, ModalE, ModalC},
   setup() {
     const route = useRoute()
     const router = useRouter()
@@ -52,6 +54,7 @@ export default {
     const waiting = ref(false)
     const vhead = ref(null)
     const modal_evalua = ref(null)
+    const modal_compara = ref(null)
     const ia_response = ref("")
     const ia_section_points = ref(0)
 
@@ -293,7 +296,16 @@ export default {
 
     const evalTabComp = (row) => {
       //alert(row)
-      alert("No disponible en produccion")
+      modal_compara.value.showModal(selectedOfAlias.value)
+      //modal_compara.value.closeModal()
+    }
+
+    const evalComp = (ofs) => {
+      alert(ofs[0] + '---' + ofs[1])
+    }
+
+    const saveEvalComp = () => {
+      alert("OK")
     }
 
     const evalRun = async (model) => {
@@ -428,6 +440,7 @@ export default {
       waiting,
       vhead,
       modal_evalua,
+      modal_compara,
       ia_response,
       ia_section_points,
       queryData,
@@ -451,7 +464,9 @@ export default {
       evalRowClick,
       loadPages,
       pliegoQuery,
-      evalTabComp
+      evalTabComp,
+      evalComp,
+      saveEvalComp
     };
   }
 }
