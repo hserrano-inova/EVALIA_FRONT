@@ -4,6 +4,8 @@ import LicitacionesView from '../views/LicitacionesView.vue'
 import LicitacionesDataView from '../views/LicitacionesDataView.vue'
 import EvaluacionesView from '../views/EvaluacionesView.vue'
 import EvaluacionesDataView from '../views/EvaluacionesDataView.vue'
+import ComparacionesView from '../views/ComparacionesView.vue'
+import ComparacionesDataView from '../views/ComparacionesDataView.vue'
 import ErrorView from '../views/ErrorView.vue'
 
 const router = createRouter({
@@ -37,6 +39,18 @@ const router = createRouter({
       path: '/edata',
       name: 'edata',
       component: EvaluacionesDataView,
+      meta: { requiresAuth: true } 
+    },
+    {
+      path: '/cview',
+      name: 'cview',
+      component: ComparacionesView,
+      meta: { requiresAuth: true } 
+    },
+    {
+      path: '/cdata',
+      name: 'cdata',
+      component: ComparacionesDataView,
       meta: { requiresAuth: true } 
     },
     {

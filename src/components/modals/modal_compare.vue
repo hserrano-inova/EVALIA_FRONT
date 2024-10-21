@@ -5,7 +5,7 @@
         <div class="modal-header">
           <h5 class="modal-title" id="staticBackdropLiveLabel">
             <i class="bi bi-arrow-left-right"></i>
-            COMPARACION OFERTAS: <strong class="text-secondary" style="margin-left:30px">{{ licitaAlias }}</strong>
+            COMPARACION OFERTAS
           </h5>
           <button type="button" class="btn-close" @click="closeModal"></button>
         </div>
@@ -13,7 +13,7 @@
           <img v-show="waiting" src="@/assets/img/loading.gif" class="floating_gif" />
 
           <div class="row">
-            <div class="col-6">
+            <div class="col-4">
               <h5>OFERTA A</h5>
               <select class="form-select" v-model="ofA">
                 <option value="0">SELECCIONA UNA OFERTA</option>
@@ -21,7 +21,7 @@
                 <!-- <option value="3">MODELO OPEN</option> -->
               </select> 
             </div>
-            <div class="col-6">
+            <div class="col-4">
               <h5>OFERTA B</h5>
               <select class="form-select" v-model="ofB">
                 <option value="0">SELECCIONA UNA OFERTA</option>
@@ -29,30 +29,19 @@
                 <!-- <option value="3">MODELO OPEN</option> -->
               </select> 
             </div>
+            <div class="col-4">
+              <button type="button" class="btn btn-sm btn-warning float-end" @click="evalRun">
+                <i class="bi bi-pen"></i>&nbsp;EVALUAR
+              </button>
+              <button @click="saveEval" v-if="ia_response!=''" type="button" style="margin-left:10px;margin-right: 10px;" class="btn btn-sm btn-danger float-end">
+                <i class="bi bi-floppy"></i>&nbsp;GUARDAR
+              </button>
+            </div>
             <hr style="margin-top: 10px;">
           </div>
 
           <div class="row">
-            <div class="col-4">
-              <select class="form-select" v-model="selectedmodel">
-                <option value="2" selected>MODELO LOGICO</option>
-                <option value="1">MODELO CREATIVO</option>
-                <!-- <option value="3">MODELO OPEN</option> -->
-              </select> 
-            </div>
-            <div class="col-8">
-              <button type="button" class="btn btn-sm btn-warning float-end" @click="evalRun">
-                <i class="bi bi-pen"></i>&nbsp;EVALUAR
-              </button>
-              <button @click="$emit('saveEval')" v-if="ia_response!=''" type="button" style="margin-left:10px;margin-right: 10px;" class="btn btn-sm btn-danger float-end">
-                <i class="bi bi-floppy"></i>&nbsp;GUARDAR
-              </button>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
             <div class="col-12">
-              <h4 v-if="ia_response!=''"><i class="bi bi-trophy"></i>&nbsp;Puntuacion : <span class="text-secondary" style="font-size: 1.5em;">{{ puntuacion }}</span></h4>
               <hr v-if="ia_response!=''">
               <label class="form-label">Evaluacion IA</label>
               <textarea v-model="ia_response" disabled  rows="25" class="form-control is-valid"></textarea>
@@ -77,15 +66,12 @@ export default {
   setup(props,{emit}) {
     const show = ref(false)
     const waiting = ref(false)
-    const licitaAlias = ref("")
     const ia_response = ref("")
-    const puntuacion  = ref(0)
     const selectedmodel = ref(2)
     const ofA = ref("0")
     const ofB = ref("0")
 
-    const showModal = (msg) => {
-      licitaAlias.value = msg
+    const showModal = () => {
       waiting.value = false
       ia_response.value = ""
       show.value= true
@@ -93,7 +79,6 @@ export default {
 
     const closeModal = () => {
       waiting.value = false
-      licitaAlias.value = ""
       ia_response.value = ""
       show.value = false
     }
@@ -108,25 +93,32 @@ export default {
       emit('evalRun',[ofA.value, ofB.value])
     }
 
-    const evalShow = (response,points) => {
+    const saveEval = () => {
+      if(ia_response.value == ""){
+        alert("COMARATIVa EN BLANCO")
+        return
+      }
+      waiting.value = true
+      emit('saveEval',[ofA.value, ofB.value])
+    }
+
+    const evalShow = (response) => {
       waiting.value = false
       ia_response.value = response
-      puntuacion.value = points
     }
 
     return { 
       show, 
       waiting, 
-      licitaAlias,
       ia_response,
-      puntuacion,
       selectedmodel,
       ofA,
       ofB,
       showModal,
       closeModal,
       evalRun,
-      evalShow
+      evalShow,
+      saveEval
     }
   },
 

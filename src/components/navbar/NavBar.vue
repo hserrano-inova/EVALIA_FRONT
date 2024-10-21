@@ -56,6 +56,7 @@ export default {
     const links = ref({
       'Licitaciones': '/lview',
       'Evaluaciones': '/eview',
+      'Comparaciones': '/cview',
       // 'Settings': '/settings',
     })
     return {

@@ -294,18 +294,54 @@ export default {
       }
     }
 
-    const evalTabComp = (row) => {
-      //alert(row)
-      modal_compara.value.showModal(selectedOfAlias.value)
+    const evalTabComp = () => {
+      modal_compara.value.showModal()
       //modal_compara.value.closeModal()
     }
 
-    const evalComp = (ofs) => {
-      alert(ofs[0] + '---' + ofs[1])
+    const evalComp = async (ofs) => {
+      ia_response.value = ""
+      await axios.post('/compara',
+        JSON.stringify({
+            "idl": idLicita.value,
+            "ofA": ofs[0],
+            "ofB": ofs[1],
+            'sect': (selectedTab.value)-1,
+            'model': 0 //0=OpenAI
+            }
+          ),
+          {headers: {'Content-Type': 'application/json'}}
+      )
+      .then((response) => {
+        ia_response.value = response.data
+
+        modal_compara.value.evalShow(ia_response.value)
+      })
+      .catch((error) => {
+        modal_compara.value.evalShow(error)
+      })
     }
 
-    const saveEvalComp = () => {
-      alert("OK")
+    const saveEvalComp = async (ofs) => {
+      await axios.post('/comparaciones',
+          JSON.stringify({
+            "id_licitacion":idLicita.value,
+            "licitacion":data.value.nombre,
+            "ofA":ofs[0],
+            "ofB":ofs[1],
+            "seccion":data.value['secciones'][(selectedTab.value)-1]['tabtxt'],
+            "comparacion":ia_response.value,
+     }),
+        {headers: {'Content-Type': 'application/json'}}
+      )
+      .then(() => {
+        modal_compara.value.closeModal()
+        //queryData()
+      })
+      .catch((error) => {
+        vhead.value.showaviso(1, error)
+        modal_compara.value.evalShow(error)
+      })
     }
 
     const evalRun = async (model) => {
