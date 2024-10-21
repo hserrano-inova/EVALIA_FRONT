@@ -15,18 +15,16 @@
           <div class="row">
             <div class="col-4">
               <h5>OFERTA A</h5>
-              <select class="form-select" v-model="ofA">
+              <select class="form-select" v-model="ofA" ref="selectA">
                 <option value="0">SELECCIONA UNA OFERTA</option>
                 <option v-for="of,i in ofertas" :key="i" :value="of['id']">{{of['alias']}}</option>
-                <!-- <option value="3">MODELO OPEN</option> -->
               </select> 
             </div>
             <div class="col-4">
               <h5>OFERTA B</h5>
-              <select class="form-select" v-model="ofB">
+              <select class="form-select" v-model="ofB"  ref="selectB">
                 <option value="0">SELECCIONA UNA OFERTA</option>
                 <option v-for="of,i in ofertas" :key="i" :value="of['id']">{{of['alias']}}</option>
-                <!-- <option value="3">MODELO OPEN</option> -->
               </select> 
             </div>
             <div class="col-4">
@@ -34,7 +32,7 @@
                 <i class="bi bi-pen"></i>&nbsp;EVALUAR
               </button>
               <button @click="saveEval" v-if="ia_response!=''" type="button" style="margin-left:10px;margin-right: 10px;" class="btn btn-sm btn-danger float-end">
-                <i class="bi bi-floppy"></i>&nbsp;GUARDAR
+                  <i class="bi bi-floppy"></i>&nbsp;GUARDAR
               </button>
             </div>
             <hr style="margin-top: 10px;">
@@ -70,6 +68,8 @@ export default {
     const selectedmodel = ref(2)
     const ofA = ref("0")
     const ofB = ref("0")
+    const selectA = ref(null)
+    const selectB = ref(null) 
 
     const showModal = () => {
       waiting.value = false
@@ -94,12 +94,15 @@ export default {
     }
 
     const saveEval = () => {
+      const ofa = selectA.value.options[selectA.value.selectedIndex].text
+      const ofb = selectB.value.options[selectB.value.selectedIndex].text
+
       if(ia_response.value == ""){
         alert("COMARATIVa EN BLANCO")
         return
       }
       waiting.value = true
-      emit('saveEval',[ofA.value, ofB.value])
+      emit('saveEval',[ofa, ofb])
     }
 
     const evalShow = (response) => {
@@ -114,6 +117,8 @@ export default {
       selectedmodel,
       ofA,
       ofB,
+      selectA,
+      selectB,
       showModal,
       closeModal,
       evalRun,

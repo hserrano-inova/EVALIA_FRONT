@@ -92,7 +92,17 @@
         </button> -->
       </legend>
       <hr />
-      <STable :data="dataEval" :columns="eval_columns" :filters="filters" @rowClick="$emit('evalRowClick', $event)" />
+      <STable v-if="dataEval.length>0" :data="dataEval" :columns="eval_columns" :filters="filters" @rowClick="$emit('evalRowClick', $event)" />
+      <hr>
+      <div v-if="dataComp.length>0">
+        <legend>Comparaciones
+          <!-- <button v-if="seldoc!=''" @click="uploadFile" class="btn btn-warning btn-sm" style="float:right">
+            <i class="bi bi-pen"></i>&nbsp;Iniciar evaluacion completa
+          </button> -->
+        </legend>
+        <hr />
+        <STable :data="dataComp" :columns="comp_columns" :filters="filters" @rowClick="$emit('compRowClick', $event)" />
+      </div>
     </div>
 
   </div>
@@ -105,9 +115,10 @@ import FileGroup from '@/components/controls/list_file_group.vue';
 
 export default {
   name: 'LGeneral',
-  props: ['data', 'dataEval','selpdf'],
-  emits: ['rowClick','selPliego', 'delPliego', 'selDoc', 'delDoc', 'uploadFile', 'uploadPliegoFile', 'evalRowClick'],
+  props: ['data', 'dataEval', 'dataComp' ,'selpdf'],
+  emits: ['rowClick','selPliego', 'delPliego', 'selDoc', 'delDoc', 'uploadFile', 'uploadPliegoFile', 'evalRowClick', 'compRowClick'],
   components: { STable, FileGroup },
+
   setup(props, { emit }) {
     const settings = inject('settings');
     const seldoc = ref("")
@@ -197,6 +208,7 @@ export default {
       settings,
       seldoc,
       eval_columns: ['oferta', 'actualizada'],
+      comp_columns: ['ofA', 'ofB', 'actualizada'],
       choosed_file,
       inputUpload,
       linkClick,

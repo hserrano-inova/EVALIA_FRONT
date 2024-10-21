@@ -6,7 +6,8 @@
   />
   <div class="accordion">
     <div class="row" style="text-align: center;">
-      <h2>{{ data['licitacion'] }} / <span class="text-info">{{ data['ofA'] }}</span>&nbsp; - vs - &nbsp; <span class="text-info">{{ data['ofB'] }}</span></h2>
+      <h2>{{ data['licitacion'] }}</h2>
+      <h2><span class="text-info">{{ data['ofA'] }}</span>&nbsp; - vs - &nbsp; <span class="text-info">{{ data['ofB'] }}</span></h2>
       <hr/>
     </div>
     <div class="row">

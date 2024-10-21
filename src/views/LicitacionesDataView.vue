@@ -7,7 +7,7 @@
       <div class="col-12">
         <img v-show="waiting" src="@/assets/img/loading.gif" class="floating_gif" />
         
-        <LTabs :data="data" :tabs="tabs" :dataEval="dataEval" :selpdf="selpdf"
+        <LTabs :data="data" :tabs="tabs" :dataEval="dataEval" :dataComp="dataComp" :selpdf="selpdf"
         @selTab="selTab"
         @addTab="addTab" 
         @delTab="delTab"
@@ -20,6 +20,7 @@
         @uploadFile="uploadFile"
         @uploadPliegoFile="uploadPliegoFile"
         @evalRowClick="evalRowClick"
+        @compRowClick="compRowClick"
         @loadPages="loadPages"
         @pliegoQuery="pliegoQuery"
         />
@@ -37,6 +38,8 @@ import LTabs from '@/components/tabs/tabcontrol.vue'
 import ModalE from '@/components/modals/modal_eval.vue'
 import ModalC from '@/components/modals/modal_compare.vue'
 
+//LicitaDataView --> tabcontrol--> seccion_tab / licitageneral_tab
+
 export default {
   name: 'LicitacionesDataView',
   components: { VHead ,LTabs, ModalE, ModalC},
@@ -45,6 +48,7 @@ export default {
     const router = useRouter()
     const data = ref([])
     const dataEval = ref({})
+    const dataComp = ref({})
     const tabs = ref([])
     const idLicita = ref(0)
     const selpdf = ref("")
@@ -84,6 +88,7 @@ export default {
           //console.log(response.data)
           data.value=response.data
           queryEvaluacionesData()
+          queryComparacionesData()
           renderTabs()
           check_points()
         })
@@ -97,6 +102,17 @@ export default {
         .then((response) => {
           //console.log(response.data)
           dataEval.value=response.data
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    };
+
+    const queryComparacionesData = async () => {
+        await axios.get('/comparaciones/licita/' + idLicita.value )
+        .then((response) => {
+          //console.log(response.data)
+          dataComp.value=response.data
         })
         .catch((error) => {
           console.log(error)
@@ -336,7 +352,7 @@ export default {
       )
       .then(() => {
         modal_compara.value.closeModal()
-        //queryData()
+        queryData()
       })
       .catch((error) => {
         vhead.value.showaviso(1, error)
@@ -405,6 +421,14 @@ export default {
       })
     }
 
+    const compRowClick = (row) => {
+      console.log(row.pos)
+      router.push({
+        name: 'cdata',
+        query: { id: dataComp.value[row.pos].id }
+      })
+    }
+
     const loadPages = async (e) => {
       if(selpdf.value != ""){
         //e[0]=pestaña, e[1]=pages
@@ -467,6 +491,7 @@ export default {
     return { 
       data,
       dataEval,
+      dataComp,
       selpdf,
       tabs,
       selectedTab,
@@ -481,6 +506,7 @@ export default {
       ia_section_points,
       queryData,
       queryEvaluacionesData,
+      queryComparacionesData,
       renderTabs,
       saveData,
       delData,
@@ -498,6 +524,7 @@ export default {
       evalRun,
       saveEval,
       evalRowClick,
+      compRowClick,
       loadPages,
       pliegoQuery,
       evalTabComp,

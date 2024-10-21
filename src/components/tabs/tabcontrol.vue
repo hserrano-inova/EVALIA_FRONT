@@ -26,7 +26,7 @@
           @pliegoQuery="$emit('pliegoQuery', $event)"/>
       </div>
       <div v-else-if="t.tipo == 'lgeneral'">
-        <LicitaGeneral :data="data" :dataEval="dataEval" :selpdf="selpdf"
+        <LicitaGeneral :data="data" :dataEval="dataEval" :dataComp="dataComp" :selpdf="selpdf"
         @rowClick="$emit('rowClick', $event)" 
         @selPliego="$emit('selPliego', $event)" 
         @delPliego="$emit('delPliego', $event)" 
@@ -34,7 +34,9 @@
         @delDoc="$emit('delDoc', $event)" 
         @uploadFile="$emit('uploadFile', $event)"
         @uploadPliegoFile="$emit('uploadPliegoFile', $event)"
-        @evalRowClick="$emit('evalRowClick', $event)"/>
+        @evalRowClick="$emit('evalRowClick', $event)"
+        @compRowClick="$emit('compRowClick', $event)"
+        />
       </div>
     </div>
   </div>
@@ -47,7 +49,7 @@ import LicitaGeneral from '@/components/tabs/licitageneral_tab.vue'
 
 export default {
   name: 'LTabs',
-  props: ['data','tabs', 'dataEval','selpdf'],
+  props: ['data','tabs', 'dataEval', 'dataComp','selpdf'],
   components: { SeccionTab, LicitaGeneral },
 
 }
