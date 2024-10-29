@@ -1,18 +1,22 @@
 // src/plugins/axios.js
 import axios from 'axios';
 import AuthService from '@/authreq/auth';
+// import { useLanguage } from '@/composables/useLanguage';
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_APP_DOMAIN + import.meta.env.VITE_APP_APIPATH,
 });
 
+
 instance.interceptors.request.use(
   (config) => {
     const user = AuthService.getCurrentToken();
+
     if (user && user.access_token) {
       // config.headers['Content-Type'] = 'application/json',
       config.headers['accept'] = 'application/json',
       config.headers['Authorization'] = 'Bearer ' + user.access_token
+      config.headers["accept-language"] = localStorage.getItem('language') || 'es'
     }
     return config;
   },

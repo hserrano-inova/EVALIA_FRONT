@@ -26,6 +26,12 @@
             <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
             <hr class="d-lg-none my-2 text-white-50">
           </li>
+          <li class="nav-item" data-bs-theme="light">
+            <select class="form-select sm" v-model="selectedLanguage" @change="changeLanguage">
+              <option value="es">ES</option>
+              <option value="pt">PT</option>
+            </select>
+          </li>
           <li class="nav-item " data-bs-theme="light">
             <a class="nav-link  d-flex align-items-center" href="#">
               <span>v{{ version }}</span>
@@ -49,6 +55,9 @@
 
 <script>
 import { ref } from 'vue'
+import { useLanguage } from '@/composables/useLanguage';
+
+
 export default {
   name: 'NavBar',
 
@@ -59,9 +68,18 @@ export default {
       'Comparaciones': '/cview',
       // 'Settings': '/settings',
     })
+
+    const { setLanguage } = useLanguage();
+    const selectedLanguage = ref(localStorage.getItem('language') || 'es');
+
+    const changeLanguage = () => {
+      setLanguage(selectedLanguage.value);
+    }
     return {
       version: import.meta.env.VITE_APP_VERSION,
-      links
+      links,
+      selectedLanguage,
+      changeLanguage
     };
   },
 };
