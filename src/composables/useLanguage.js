@@ -6,6 +6,7 @@ export function useLanguage() {
   const setLanguage = (lang) => {
     language.value = lang;
     localStorage.setItem('language', lang);
+    window.location.reload();
   };
 
   return { language, setLanguage };

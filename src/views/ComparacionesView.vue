@@ -49,7 +49,7 @@ export default {
     })
 
     return {
-      header_data: { title: "Compraciones", icon: "bi-pen", btn:[] },
+      header_data: { title: "Comparaciones", icon: "bi-pen", btn:[] },
       columns: ['licitacion', 'ofA','ofB','actualizada'],
       data,
       filters,

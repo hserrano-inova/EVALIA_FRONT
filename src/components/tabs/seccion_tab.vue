@@ -3,7 +3,7 @@
     <br/>
     <div class="row">
       <div class="col-2">
-        <label class="form-label">Puntuacion MAX</label>
+        <label class="form-label">{{$t('Puntuacion')}} MAX</label>
         <input required type="number" class="form-control bold-inputbox" v-model="data.secciones[row].puntuacion" />
       </div>
       <div class="col-2"></div>
@@ -11,18 +11,18 @@
       <div class="col-4">
         <button v-if="data.secciones[row].puntuacion>0 && data.secciones[row].pliego!='' && data.secciones[row].criterio!=''"  
           @click="$emit('evalTab', row)" type="button" class="btn btn-sm btn-warning">
-          <i class="bi bi-person"></i>&nbsp;Eval.Individual
+          <i class="bi bi-person"></i>&nbsp;{{ $t('EvIndividual') }}
         </button>
         &nbsp;
         <button v-if="data.secciones[row].puntuacion>0 && data.secciones[row].pliego!='' && data.secciones[row].criterio!=''"  
           @click="$emit('evalTabComp', row)" type="button" class="btn btn-sm btn-primary">
-          <i class="bi bi-people"></i>&nbsp;Eval. Comparativa
+          <i class="bi bi-people"></i>&nbsp;{{ $t('EvComparativa') }}
         </button>
 
       </div>
       <div class="col-3" style="text-align: right">
         <button @click="$emit('delTab', row)" type="button" class="btn btn-sm btn-danger">
-          <i class="bi bi-trash"></i>&nbsp;Borra Apartado
+          <i class="bi bi-trash"></i>&nbsp;{{$t('DelApartado')}}
         </button>
       </div>
     </div>
@@ -30,12 +30,12 @@
       <hr/>
       <div class="col-2">
         <button v-if="data.licitacion_fname!=''"  @click="loadPages" class="btn btn-info btn-sm" >
-          <i class="bi bi-file-earmark-text"></i>&nbsp;Cargar Pliego
+          <i class="bi bi-file-earmark-text"></i>&nbsp;{{$t('LoadPliego')}}
         </button>
       </div>
       
         <div class="col-9">
-          <input type="text" class="form-control" placeholder="Consulta sobre pliego" v-model="pliegoQueryText">
+          <input type="text" class="form-control" :placeholder="$t('PlaceholdeConsultaPliego')" v-model="pliegoQueryText">
         </div>
         <div class="col-1">
           <button type="submit" class="btn btn-primary mb-3" @click="$emit('pliegoQuery',[row, pliegoQueryText])">

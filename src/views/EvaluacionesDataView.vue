@@ -112,7 +112,7 @@ export default{
 
     return {
       vhead,
-      header_data: { title: "Evaluacion", icon: "bi-bank", btn: ['del'] },
+      header_data: { title: "Evaluaciones", icon: "bi-bank", btn: ['del'] },
       data,
       puntos,
       queryData,

@@ -3,7 +3,7 @@
     <li class="nav-item" role="presentation" v-for="t, i in tabs" :key="i">
       <a :class="['nav-link', { 'active': i==t.selindex}]" data-bs-toggle="tab" :href="'#' + t.header" aria-selected="false"
         role="tab" tabindex="-1" @click.prevent="$emit('selTab', i-1)">
-        {{ t.header.toUpperCase() }}
+        {{ $t(t.header.toUpperCase()) }}
         <span :class="['badge', { 'bg-light': i > 0, 'bg-warning': i == 0 }]">{{ t.badge }}</span>
       </a>
     </li>

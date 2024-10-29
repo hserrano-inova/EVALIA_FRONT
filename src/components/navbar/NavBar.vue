@@ -13,7 +13,7 @@
           <li class="nav-item dropdown" data-bs-theme="light" v-for="v, k in links" :key="k">
             <router-link class="nav-link awhite dropdown-toggle" aria-current="page" :to="v">
               <!-- <i class="bi bi-box-arrow-right"></i> -->
-              {{ k }}
+              {{ $t(k) }}
             </router-link>
           </li>
         </ul>

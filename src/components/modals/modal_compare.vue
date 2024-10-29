@@ -5,7 +5,7 @@
         <div class="modal-header">
           <h5 class="modal-title" id="staticBackdropLiveLabel">
             <i class="bi bi-arrow-left-right"></i>
-            COMPARACION OFERTAS
+            {{ $t('Comparaciones') }} &nbsp;  {{ $t('Ofertas') }}
           </h5>
           <button type="button" class="btn-close" @click="closeModal"></button>
         </div>
@@ -16,23 +16,23 @@
             <div class="col-4">
               <h5>OFERTA A</h5>
               <select class="form-select" v-model="ofA" ref="selectA">
-                <option value="0">SELECCIONA UNA OFERTA</option>
+                <option value="0">{{ $t('Selecciona') }} UNA OFERTA</option>
                 <option v-for="of,i in ofertas" :key="i" :value="of['id']">{{of['alias']}}</option>
               </select> 
             </div>
             <div class="col-4">
               <h5>OFERTA B</h5>
               <select class="form-select" v-model="ofB"  ref="selectB">
-                <option value="0">SELECCIONA UNA OFERTA</option>
+                <option value="0">{{ $t('Selecciona') }} UNA OFERTA</option>
                 <option v-for="of,i in ofertas" :key="i" :value="of['id']">{{of['alias']}}</option>
               </select> 
             </div>
             <div class="col-4">
               <button type="button" class="btn btn-sm btn-warning float-end" @click="evalRun">
-                <i class="bi bi-pen"></i>&nbsp;EVALUAR
+                <i class="bi bi-pen"></i>&nbsp;{{ $t('Evaluar') }}
               </button>
               <button @click="saveEval" v-if="ia_response!=''" type="button" style="margin-left:10px;margin-right: 10px;" class="btn btn-sm btn-danger float-end">
-                  <i class="bi bi-floppy"></i>&nbsp;GUARDAR
+                  <i class="bi bi-floppy"></i>&nbsp;{{ $t('Guardar') }}
               </button>
             </div>
             <hr style="margin-top: 10px;">
@@ -41,7 +41,7 @@
           <div class="row">
             <div class="col-12">
               <hr v-if="ia_response!=''">
-              <label class="form-label">Evaluacion IA</label>
+              <label class="form-label">{{ $t('Evaluaciones') }} IA</label>
               <textarea v-model="ia_response" disabled  rows="25" class="form-control is-valid"></textarea>
             </div>
           </div>

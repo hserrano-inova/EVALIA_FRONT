@@ -2,12 +2,12 @@
   <div class="row" style="margin-top: 30px;" v-if="data">
     <!-- -----------------------------PROMOTOR----------------------------- -->
     <div class="col-lg-4 right-border">
-      <legend>Promotor</legend>
+      <legend>{{$t('Promotor')}}</legend>
       <hr />
 
       <div class="row">
         <div class="mb-3">
-          <label for="rsocial" class="form-label">Nombre Licitacion</label>
+          <label for="rsocial" class="form-label">{{ $t('NLicitacion') }}</label>
           <textarea class="form-control form-control-sm" v-model="data.nombre">{{ data.nombre }}</textarea>
         </div>
       </div>
@@ -16,7 +16,7 @@
 
         <div class="col-6">
           <fieldset disabled="">
-            <label class="form-label" for="disabledInput">Actualizada</label>
+            <label class="form-label" for="disabledInput">{{$t('Actualizada')}}</label>
             <input class="form-control form-control-sm" type="text" :placeholder="data.actualizada" disabled="">
           </fieldset>
         </div>
@@ -31,7 +31,7 @@
       </div>
 
       <div class="row" v-if="data.id!=null">
-        <legend>Pliego
+        <legend>{{$t('Pliego')}}
         <button  v-if="choosed_pliego_file" @click="uploadPliegoFile" class="btn btn-secondary btn-sm" style="float:right">
           <i class="bi bi-upload"></i>
         </button>
@@ -62,7 +62,7 @@
 
     <!-- -----------------------------OFERTAS----------------------------- -->
     <div class="col-lg-3 right-border">
-      <legend>Ofertas
+      <legend>{{$t('Ofertas')}}
         <button v-if="choosed_file" @click="uploadFile" class="btn btn-secondary btn-sm" style="float:right">
           <i class="bi bi-upload"></i>
         </button>
@@ -86,7 +86,7 @@
 
     <!-- -----------------------------EVALUACIONES----------------------------- -->
     <div class="col-lg-5">
-      <legend>Evaluaciones
+      <legend>{{$t('Evaluaciones')}}
         <!-- <button v-if="seldoc!=''" @click="uploadFile" class="btn btn-warning btn-sm" style="float:right">
           <i class="bi bi-pen"></i>&nbsp;Iniciar evaluacion completa
         </button> -->

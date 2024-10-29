@@ -10,13 +10,14 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "pinia": "^2.1.7",
-    "vue": "^3.4.29",
-    "vue-router": "^4.3.3",
-    "vuejs-smart-table": "^1.0.0-beta.6",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
-    "bootstrap-icons": "^1.11.3"
+    "bootstrap-icons": "^1.11.3",
+    "pinia": "^2.1.7",
+    "vue": "^3.4.29",
+    "vue-i18n": "^10.0.4",
+    "vue-router": "^4.3.3",
+    "vuejs-smart-table": "^1.0.0-beta.6"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.5",

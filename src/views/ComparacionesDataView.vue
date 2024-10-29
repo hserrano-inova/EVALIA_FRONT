@@ -110,7 +110,7 @@ export default{
 
     return {
       vhead,
-      header_data: { title: "Comparacion", icon: "bi-bank", btn: ['del'] },
+      header_data: { title: "Comparaciones", icon: "bi-bank", btn: ['del'] },
       data,
       puntos,
       queryData,

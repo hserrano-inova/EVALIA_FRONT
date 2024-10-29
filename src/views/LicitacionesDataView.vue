@@ -497,7 +497,7 @@ export default {
       selectedTab,
       selectedOf,
       selectedOfAlias,
-      header_data: { title: "Licitacion", icon: "bi-bank", btn: ['save', 'del'] },
+      header_data: { title: "Licitaciones", icon: "bi-bank", btn: ['save', 'del'] },
       waiting,
       vhead,
       modal_evalua,
