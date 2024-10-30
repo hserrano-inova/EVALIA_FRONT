@@ -29,6 +29,7 @@
           <li class="nav-item" data-bs-theme="light">
             <select class="form-select sm" v-model="selectedLanguage" @change="changeLanguage">
               <option value="es">ES</option>
+              <option value="ga">GA</option>
               <option value="pt">PT</option>
             </select>
           </li>
