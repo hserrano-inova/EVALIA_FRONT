@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ModalE ref="modal_evalua" title="Evaluacion" @evalRun="evalRun" @saveEval="saveEval"/>
+    <ModalE ref="modal_evalua" title="Evaluacion" :ofertas="data.ofertas" @evalRun="evalRun" @saveEval="saveEval" @selOF="selOF"/>
     <ModalC ref="modal_compara" :ofertas="data.ofertas" title="Evaluacion" @evalRun="evalComp" @saveEval="saveEvalComp"/>
     <div class="row">
       <VHead :data="header_data" ref="vhead" @new="newreg" @save="saveData" @del="delData" />
@@ -15,8 +15,7 @@
         @evalTabComp="evalTabComp"
         @selPliego="selPliego" 
         @delPliego="delPliego"
-        @selDoc="selDoc" 
-        @delDoc="delDoc" 
+        @delDoc="delOF" 
         @uploadFile="uploadFile"
         @uploadPliegoFile="uploadPliegoFile"
         @evalRowClick="evalRowClick"
@@ -191,7 +190,8 @@ export default {
       }
     }
 
-    const selDoc = (ofid) => {
+    const selOF = (ofid) => {
+      alert(ofid)
       selectedOf.value=ofid
       const al = (data.value.ofertas.find((obj) => obj['id'] === ofid))
       selectedOfAlias.value=al['alias']
@@ -199,7 +199,7 @@ export default {
 
     }
 
-    const delDoc = async (idof) => {
+    const delOF = async (idof) => {
       let c = confirm("Desea elimiar la oferta?")
       if (c) {
         let c2 = confirm("Seguro?")
@@ -301,13 +301,10 @@ export default {
     }
 
     const evalmodal = () => {  
-      if(selectedOf.value != ''){
         ia_response.value = ""
         ia_section_points.value = 0
+        waiting.value = false
         modal_evalua.value.showModal(selectedOfAlias.value)
-      }else{
-        vhead.value.showaviso(1, "Primero debes cargar una oferta")
-      }
     }
 
     const evalTabComp = () => {
@@ -361,33 +358,40 @@ export default {
     }
 
     const evalRun = async (model) => {
-      ia_response.value = ""
-      ia_section_points.value = 0
-      //console.log(selectedTab.value-1)
-       await axios.post('/evalua',
-          JSON.stringify({
-              "idl": idLicita.value,
-              "idof": selectedOf.value,
-              'sect': (selectedTab.value)-1,
-              'model': model
-             }
-           ),
-           {headers: {'Content-Type': 'application/json'}}
-        )
-        .then((response) => {
-          ia_response.value = response.data
-          const regex = /<puntuacion>(.*?)<\/puntuacion>/g;
+      if(selectedOf.value != ''){
+        waiting.value = true
+        ia_response.value = ""
+        ia_section_points.value = 0
+        //console.log(selectedTab.value-1)
+        await axios.post('/evalua',
+            JSON.stringify({
+                "idl": idLicita.value,
+                "idof": selectedOf.value,
+                'sect': (selectedTab.value)-1,
+                'model': model
+              }
+            ),
+            {headers: {'Content-Type': 'application/json'}}
+          )
+          .then((response) => {
+            ia_response.value = response.data
+            const regex = /<puntuacion>(.*?)<\/puntuacion>/g;
 
-          let match;
-          while ((match = regex.exec(ia_response.value)) !== null) {
-            ia_section_points.value = match[1]
-          }
-
-          modal_evalua.value.evalShow(ia_response.value, ia_section_points.value)
-        })
-        .catch((error) => {
-          modal_evalua.value.evalShow(error)
-        })
+            let match;
+            while ((match = regex.exec(ia_response.value)) !== null) {
+              ia_section_points.value = match[1]
+            }
+            waiting.value = false
+            modal_evalua.value.evalShow(ia_response.value, ia_section_points.value)
+          })
+          .catch((error) => {
+            waiting.value = false
+            modal_evalua.value.evalShow(error)
+          })
+      }else{
+        waiting.value = false
+        alert("Debe seleccionar una oferta")
+      }
     }
 
     const saveEval = async () => {
@@ -404,10 +408,12 @@ export default {
           {headers: {'Content-Type': 'application/json'}}
         )
         .then(() => {
+          waiting.value = false
           modal_evalua.value.closeModal()
           queryData()
         })
         .catch((error) => {
+          waiting.value = false
           vhead.value.showaviso(1, error)
           modal_evalua.value.evalShow(error)
         })
@@ -450,6 +456,7 @@ export default {
           }
         })
         .catch((error) => {
+          waiting.value = false
           vhead.value.showaviso(1, error)
           modal_evalua.value.evalShow(error)
         })
@@ -515,8 +522,8 @@ export default {
       delTab,
       selPliego,
       delPliego,
-      selDoc,
-      delDoc,
+      selOF,
+      delOF,
       uploadFile,
       uploadPliegoFile,
       check_points,

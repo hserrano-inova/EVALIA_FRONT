@@ -75,7 +75,7 @@
       <div class="list-group">
         <a href="#" v-for="of, i in data.ofertas" :key="i"
           :class="['list-group-item list-group-item-action', { 'active': seldoc == of.id }]">
-          <p @click="selDoc(of.id)">
+          <p>
             <i class="bi bi-arrow-down-right-square"></i> &nbsp; {{ of.alias }}
           </p>
           <i class="bi bi-trash" style="float:right" @click="delDoc(of.id)"></i>
@@ -117,7 +117,7 @@ export default {
   name: 'LGeneral',
   props: ['data', 'dataEval', 'dataComp' ,'selpdf'],
   emits: ['rowClick','selPliego', 'delPliego', 'selDoc', 'delDoc', 'uploadFile', 'uploadPliegoFile', 'evalRowClick', 'compRowClick'],
-  components: { STable, FileGroup },
+  components: { STable, FileGroup},
 
   setup(props, { emit }) {
     const settings = inject('settings');
@@ -149,16 +149,6 @@ export default {
 
     const delPliego = (fname) => {
       emit('delPliego', fname)
-    }
-
-    const selDoc = (ofid) => {
-      let c = confirm("Desea cargar la oferta?")
-      if (c) {
-        seldoc.value = ofid
-        emit('selDoc', ofid)
-      } else {
-        seldoc.value = ""
-      }
     }
 
     const delDoc = (id) => {
@@ -214,7 +204,6 @@ export default {
       linkClick,
       selPliego,
       delPliego,
-      selDoc,
       delDoc,
       uploadFile,
       selectedFileChange,

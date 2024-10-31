@@ -5,7 +5,7 @@
         <div class="modal-header">
           <h5 class="modal-title" id="staticBackdropLiveLabel">
             <i class="bi bi-clipboard-check"></i>
-            EVALUACION OFERTA: <strong class="text-secondary" style="margin-left:30px">{{ licitaAlias }}</strong>
+            {{ $t('Evaluaciones') }}&nbsp;{{ $t('Ofertas') }}
           </h5>
           <button type="button" class="btn-close" @click="closeModal"></button>
         </div>
@@ -30,11 +30,15 @@
           </div>
           <hr>
           <div class="row">
-            <div class="col-12">
+            <div class="col-9">
               <h4 v-if="ia_response!=''"><i class="bi bi-trophy"></i>&nbsp;Puntuacion : <span class="text-secondary" style="font-size: 1.5em;">{{ puntuacion }}</span></h4>
               <hr v-if="ia_response!=''">
               <label class="form-label">{{ $t('Evaluaciones') }} IA</label>
               <textarea v-model="ia_response" disabled  rows="25" class="form-control is-valid"></textarea>
+            </div>
+            <div class="col-3">
+              <label class="form-label">{{ $t('Ofertas') }}</label>
+              <OFSelector :data="ofertas" @selOF="$emit('selOF',$event)" :selectonly="true"  />
             </div>
           </div>
         </div>
@@ -48,13 +52,15 @@
 <script>
 
 import {ref} from 'vue';
+import OFSelector from '@/components/controls/of_selector.vue';
 
 export default {
   name: 'ModalEval',
-  emits: ['evalRun','saveEval'],
+  emits: ['evalRun','saveEval','selOF'],
+  props: ['ofertas'],
+  components: { OFSelector },
   setup(props,{emit}) {
     const show = ref(false)
-    const waiting = ref(false)
     const licitaAlias = ref("")
     const ia_response = ref("")
     const puntuacion  = ref(0)
@@ -62,13 +68,11 @@ export default {
 
     const showModal = (msg) => {
       licitaAlias.value = msg
-      waiting.value = false
       ia_response.value = ""
       show.value= true
     }
 
     const closeModal = () => {
-      waiting.value = false
       licitaAlias.value = ""
       ia_response.value = ""
       show.value = false
@@ -76,19 +80,16 @@ export default {
 
     const evalRun = () => {
       ia_response.value = ""
-      waiting.value = true
       emit('evalRun',selectedmodel.value)
     }
 
     const evalShow = (response,points) => {
-      waiting.value = false
       ia_response.value = response
       puntuacion.value = points
     }
 
     return { 
       show, 
-      waiting, 
       licitaAlias,
       ia_response,
       puntuacion,
