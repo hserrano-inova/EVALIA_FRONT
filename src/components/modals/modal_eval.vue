@@ -34,6 +34,9 @@
               <h4 v-if="ia_response!=''"><i class="bi bi-trophy"></i>&nbsp;Puntuacion : <span class="text-secondary" style="font-size: 1.5em;">{{ puntuacion }}</span></h4>
               <hr v-if="ia_response!=''">
               <label class="form-label">{{ $t('Evaluaciones') }} IA</label>
+              <button v-if="ia_response!=''" type="button" class="btn btn-sm btn-info" style="margin-left:10px;" @click="copycontent(ia_response)">
+                <i class="bi bi-clipboard-check"></i>&nbsp;{{ $t('Copiar') }}
+              </button>
               <textarea v-model="ia_response" disabled  rows="25" class="form-control is-valid"></textarea>
             </div>
             <div class="col-3">
@@ -84,8 +87,17 @@ export default {
     }
 
     const evalShow = (response,points) => {
+      
       ia_response.value = response
       puntuacion.value = points
+    }
+
+    const copycontent =(txt)=>{
+      //copy variable data to clipboard
+      navigator.clipboard.writeText(
+        txt
+      )
+      alert("Copiado!!")
     }
 
     return { 
@@ -97,7 +109,8 @@ export default {
       showModal,
       closeModal,
       evalRun,
-      evalShow
+      evalShow,
+      copycontent
     }
   },
 

@@ -191,7 +191,6 @@ export default {
     }
 
     const selOF = (ofid) => {
-      alert(ofid)
       selectedOf.value=ofid
       const al = (data.value.ofertas.find((obj) => obj['id'] === ofid))
       selectedOfAlias.value=al['alias']

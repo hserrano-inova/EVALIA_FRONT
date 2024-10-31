@@ -27,14 +27,14 @@
       </div>
       <div v-else-if="t.tipo == 'lgeneral'">
         <LicitaGeneral :data="data" :dataEval="dataEval" :dataComp="dataComp" :selpdf="selpdf"
-        @rowClick="$emit('rowClick', $event)" 
-        @selPliego="$emit('selPliego', $event)" 
-        @delPliego="$emit('delPliego', $event)" 
-        @delOF="$emit('delOF', $event)" 
-        @uploadFile="$emit('uploadFile', $event)"
-        @uploadPliegoFile="$emit('uploadPliegoFile', $event)"
-        @evalRowClick="$emit('evalRowClick', $event)"
-        @compRowClick="$emit('compRowClick', $event)"
+          @rowClick="$emit('rowClick', $event)" 
+          @selPliego="$emit('selPliego', $event)" 
+          @delPliego="$emit('delPliego', $event)" 
+          @delOF="$emit('delOF', $event)" 
+          @uploadFile="$emit('uploadFile', $event)"
+          @uploadPliegoFile="$emit('uploadPliegoFile', $event)"
+          @evalRowClick="$emit('evalRowClick', $event)"
+          @compRowClick="$emit('compRowClick', $event)"
         />
       </div>
     </div>

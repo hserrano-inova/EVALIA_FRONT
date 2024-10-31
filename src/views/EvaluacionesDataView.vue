@@ -22,7 +22,7 @@
         <div :id="i" class="accordion-collapse collapse" aria-labelledby="headingOne" :data-bs-parent="'#'+i" style="">
           <div class="accordion-body" >
             <button class="btn btn-sm btn-info" @click="copycontent(r['evaluacion'][0])">
-              <i class="bi bi-clipboard-check"></i>&nbsp;Copiar
+              <i class="bi bi-clipboard-check"></i>&nbsp;{{ $t('Copiar') }}
             </button>
             <br/><br/>
             <textarea  disabled  rows="25" class="form-control is-valid">{{r['evaluacion'][0]}}</textarea>

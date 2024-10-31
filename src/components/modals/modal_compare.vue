@@ -42,6 +42,9 @@
             <div class="col-12">
               <hr v-if="ia_response!=''">
               <label class="form-label">{{ $t('Evaluaciones') }} IA</label>
+              <button v-if="ia_response!=''" type="button" class="btn btn-sm btn-info" style="margin-left:10px;" @click="copycontent(ia_response)">
+                <i class="bi bi-clipboard-check"></i>&nbsp;{{ $t('Copiar') }}
+              </button>
               <textarea v-model="ia_response" disabled  rows="25" class="form-control is-valid"></textarea>
             </div>
           </div>
@@ -110,6 +113,14 @@ export default {
       ia_response.value = response
     }
 
+    const copycontent =(txt)=>{
+      //copy variable data to clipboard
+      navigator.clipboard.writeText(
+        txt
+      )
+      alert("Copiado!!")
+    }
+
     return { 
       show, 
       waiting, 
@@ -123,7 +134,8 @@ export default {
       closeModal,
       evalRun,
       evalShow,
-      saveEval
+      saveEval,
+      copycontent
     }
   },
 
