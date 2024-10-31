@@ -72,34 +72,17 @@
         <input ref="inputUpload" @change="selectedFileChange" class="form-control" type="file" id="formFile">
       </div>
       <hr />
-      <div class="list-group">
-        <a href="#" v-for="of, i in data.ofertas" :key="i"
-          :class="['list-group-item list-group-item-action', { 'active': seldoc == of.id }]">
-          <p>
-            <i class="bi bi-arrow-down-right-square"></i> &nbsp; {{ of.alias }}
-          </p>
-          <i class="bi bi-trash" style="float:right" @click="delDoc(of.id)"></i>
-          {{ formattedDate(of.fecha) }}
-        </a>
-      </div>
+      <OFSelector :data="data.ofertas" @delOF="$emit('delOF',$event)" :selectonly="false"  />
     </div>
 
     <!-- -----------------------------EVALUACIONES----------------------------- -->
     <div class="col-lg-5">
-      <legend>{{$t('Evaluaciones')}}
-        <!-- <button v-if="seldoc!=''" @click="uploadFile" class="btn btn-warning btn-sm" style="float:right">
-          <i class="bi bi-pen"></i>&nbsp;Iniciar evaluacion completa
-        </button> -->
-      </legend>
+      <legend>{{$t('Evaluaciones')}}</legend>
       <hr />
       <STable v-if="dataEval.length>0" :data="dataEval" :columns="eval_columns" :filters="filters" @rowClick="$emit('evalRowClick', $event)" />
       <hr>
       <div v-if="dataComp.length>0">
-        <legend>Comparaciones
-          <!-- <button v-if="seldoc!=''" @click="uploadFile" class="btn btn-warning btn-sm" style="float:right">
-            <i class="bi bi-pen"></i>&nbsp;Iniciar evaluacion completa
-          </button> -->
-        </legend>
+        <legend>Comparaciones</legend>
         <hr />
         <STable :data="dataComp" :columns="comp_columns" :filters="filters" @rowClick="$emit('compRowClick', $event)" />
       </div>
@@ -112,16 +95,16 @@
 import { ref, inject } from 'vue' //watch
 import STable from '@/components/smart_table/smart_table.vue';
 import FileGroup from '@/components/controls/list_file_group.vue';
+import OFSelector from '@/components/controls/of_selector.vue';
 
 export default {
   name: 'LGeneral',
   props: ['data', 'dataEval', 'dataComp' ,'selpdf'],
   emits: ['rowClick','selPliego', 'delPliego', 'selDoc', 'delDoc', 'uploadFile', 'uploadPliegoFile', 'evalRowClick', 'compRowClick'],
-  components: { STable, FileGroup},
+  components: { STable, FileGroup, OFSelector },
 
   setup(props, { emit }) {
     const settings = inject('settings');
-    const seldoc = ref("")
     const choosed_file = ref("")
     const selectedFile = ref(null)
     const inputUpload = ref(null)
@@ -149,11 +132,6 @@ export default {
 
     const delPliego = (fname) => {
       emit('delPliego', fname)
-    }
-
-    const delDoc = (id) => {
-      seldoc.value = id
-      emit('delDoc', id)
     }
 
     const uploadFile = () => {
@@ -196,7 +174,6 @@ export default {
 
     return {
       settings,
-      seldoc,
       eval_columns: ['oferta', 'actualizada'],
       comp_columns: ['ofA', 'ofB', 'actualizada'],
       choosed_file,
@@ -204,7 +181,6 @@ export default {
       linkClick,
       selPliego,
       delPliego,
-      delDoc,
       uploadFile,
       selectedFileChange,
       choosed_pliego_file,

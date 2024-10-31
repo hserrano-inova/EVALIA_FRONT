@@ -15,7 +15,7 @@
         @evalTabComp="evalTabComp"
         @selPliego="selPliego" 
         @delPliego="delPliego"
-        @delDoc="delOF" 
+        @delOF="delOF" 
         @uploadFile="uploadFile"
         @uploadPliegoFile="uploadPliegoFile"
         @evalRowClick="evalRowClick"

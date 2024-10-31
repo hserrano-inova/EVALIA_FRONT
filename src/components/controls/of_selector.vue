@@ -35,12 +35,14 @@ export default {
     };
 
     const selOF = (ofid) => {
-      let c = confirm("Desea cargar la oferta?")
-      if (c) {
-        selof.value = ofid
-        emit('selOF', ofid)
-      } else {
-        selof.value = ""
+      if(props.selectonly){
+        let c = confirm("Desea cargar la oferta?")
+        if (c) {
+          selof.value = ofid
+          emit('selOF', ofid)
+        } else {
+          selof.value = ""
+        }
       }
     }
 

@@ -30,7 +30,7 @@
         @rowClick="$emit('rowClick', $event)" 
         @selPliego="$emit('selPliego', $event)" 
         @delPliego="$emit('delPliego', $event)" 
-        @delDoc="$emit('delDoc', $event)" 
+        @delOF="$emit('delOF', $event)" 
         @uploadFile="$emit('uploadFile', $event)"
         @uploadPliegoFile="$emit('uploadPliegoFile', $event)"
         @evalRowClick="$emit('evalRowClick', $event)"
